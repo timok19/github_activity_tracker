@@ -1,4 +1,3 @@
-from async_lru import alru_cache
 from fastapi import HTTPException
 from fastapi_controllers import Controller, get
 from fastapi_injector import Injected
