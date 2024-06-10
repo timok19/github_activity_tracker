@@ -7,36 +7,44 @@ This application tracks activities on up to five configurable GitHub repositorie
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/github_activity_tracker.git
+    git clone https://github.com/timok19/github_activity_tracker.git
     cd github_activity_tracker
     ```
 
 2. Create a virtual environment and install dependencies:
     ```sh
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+    pip3 install poetry
+    poetry shell
+    poetry install
     ```
-
-3. Set up environment variables:
+    To install with development dependencies use `--with dev`
     ```sh
-    export GITHUB_TOKEN=your_github_token
+    poetry install --with dev
     ```
 
+3. Set up `.env` file:
+    ```sh
+    touch .env
+    ```
+    Add necessary environment variables. Use `.env.example` as a reference:
+    ```sh
+    cp .env.example .env
+    ```
+    
 4. Run the application:
     ```sh
-    python run.py
+    python3 main.py
     ```
 
 ## API Endpoints
 
-### Update Events
-- **URL:** `/update_events`
-- **Method:** `POST`
-- **Description:** Fetches the latest events from the configured GitHub repositories and stores them in the database.
+### Fetch Events
+- **URL:** `/api/github/fetch-events`
+- **Method:** `GET`
+- **Description:** Fetches the latest events from the configured GitHub repositories and stores them in the database if newer.
 
 ### Get Statistics
-- **URL:** `/stats`
+- **URL:** `/api/github/get-repo-stats`
 - **Method:** `GET`
 - **Parameters:**
   - `repo_name` (required): The name of the repository (e.g., `owner/repo1`).
@@ -45,7 +53,16 @@ This application tracks activities on up to five configurable GitHub repositorie
 
 ## Assumptions
 - The GitHub token provided has the necessary permissions to access the events of the specified repositories.
-- The application handles up to five repositories as per the given requirement.
+- The application handles up to five repositories as per the given requirement. Number of repositories can be changed through the `.env` file
 
 ## Documentation
-The code is documented with comments to help understand the functionality and purpose of each part. Test cases are provided to ensure the application works as expected.
+The code is documented to help understand the functionality and purpose of each part. Test cases are provided to ensure the application works as expected.
+
+## Testing
+
+### Run tests
+
+- Simply run using `pytest` command:
+```sh
+pytest
+```

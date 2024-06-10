@@ -1,6 +1,4 @@
-from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import AsyncGenerator
 
 import uvicorn
 from dotenv import load_dotenv
@@ -11,7 +9,6 @@ from loguru import logger
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-from tortoise.contrib.fastapi import RegisterTortoise
 from varname import nameof
 
 from app.api.controllers.github_controller import GithubController
