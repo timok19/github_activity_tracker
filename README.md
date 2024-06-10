@@ -61,8 +61,12 @@ The code is documented to help understand the functionality and purpose of each 
 ## Testing
 
 ### Run tests
+1. Add `.env.test` file into `tests/` folder and fill necessary data for testing:
+```sh
+cp .env.example tests/.env.test
+```
 
-- Simply run using `pytest` command:
+2. Run using `pytest` command:
 ```sh
 pytest
 ```
