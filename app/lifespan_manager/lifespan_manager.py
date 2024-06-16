@@ -2,6 +2,8 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.inmemory import InMemoryBackend
 from injector import inject
 from tortoise.contrib.fastapi import RegisterTortoise
 
@@ -16,11 +18,17 @@ class LifespanManager(LifespanManagerABC):
 
     @asynccontextmanager
     async def lifespan(self, app: FastAPI) -> AsyncGenerator:
-        async with RegisterTortoise(
+        tortoise: RegisterTortoise = RegisterTortoise(
             app,
             db_url=self.__database_options.connection_string,
             modules={"models": ["app.infrastructure.models"]},
             generate_schemas=True,
             add_exception_handlers=True,
-        ):
-            yield
+        )
+        await tortoise.init_orm()
+
+        FastAPICache.init(InMemoryBackend(), prefix="gh-cache")
+
+        yield
+
+        await tortoise.close_orm()

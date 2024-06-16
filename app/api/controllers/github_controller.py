@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from fastapi_cache.decorator import cache
 from fastapi_controllers import Controller, get
 from fastapi_injector import Injected
 from varname import nameof
@@ -17,6 +18,7 @@ class GithubController(Controller, GithubControllerABC):
         self.__github_service: GithubEventServiceABC = github_service
 
     @get("/fetch-events", name="Get Github events", response_model=DomainResultDto[list[GithubEventResponseModel]])
+    @cache(expire=3600)
     async def fetch_events_async(self) -> DomainResultDto[list[GithubEventResponseModel]]:
         gh_events_result: DomainResult[list[GithubEventResponseModel]] = await self.__github_service.fetch_events_async()
 

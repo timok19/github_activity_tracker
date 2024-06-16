@@ -27,7 +27,7 @@ class BaseTestCase(IsolatedTestCase, BaseTestCaseABC):
 
     @classmethod
     def remove_test_env_file(cls) -> None:
-        NotImplementedError("Not used yet")
+        raise NotImplementedError("Not used yet")
 
     @classmethod
     def setUpClass(cls):
